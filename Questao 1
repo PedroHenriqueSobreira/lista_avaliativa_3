@@ -1,0 +1,60 @@
+#include <stdio.h>
+#include <string.h>
+
+int romanoParaDecimal(char romano) {
+    switch (romano) {
+        case 'I': return 1;
+        case 'V': return 5;
+        case 'X': return 10;
+        case 'L': return 50;
+        case 'C': return 100;
+        case 'D': return 500;
+        case 'M': return 1000;
+        default: return 0;
+    }
+}
+
+void decimalParaBinario(int decimal) {
+    int binario[32], i = 0;
+    
+    while (decimal > 0) {
+        binario[i] = decimal % 2;
+        decimal /= 2;
+        i++;
+    }
+    
+    if (i == 0) {
+        printf("0");
+    } else {
+        for (int j = i - 1; j >= 0; j--) {
+            printf("%d", binario[j]);
+        }
+    }
+}
+
+int main() {
+    char numeroRomano[13];
+    scanf("%s", numeroRomano);
+    
+    int tamanho = strlen(numeroRomano);
+    int decimal = 0;
+    int valorAnterior = 0;
+    
+    for (int i = tamanho - 1; i >= 0; i--) {
+        int valorAtual = romanoParaDecimal(numeroRomano[i]);
+        
+        if (valorAtual >= valorAnterior) {
+            decimal += valorAtual;
+        } else {
+            decimal -= valorAtual;
+        }
+        
+        valorAnterior = valorAtual;
+    }
+    
+    printf("%s na base 2: ", numeroRomano);
+    decimalParaBinario(decimal);
+    printf("\n%s na base 10: %d\n%s na base 16: %x\n", numeroRomano, decimal, numeroRomano, decimal);
+    
+    return 0;
+}
